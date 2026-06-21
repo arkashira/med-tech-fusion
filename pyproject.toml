@@ -1,14 +1,10 @@
-[build-system]
-requires = ["poetry>=0.12"]
-build-backend = "poetry.masonry.api"
-
 [tool.poetry]
 name = "med-tech-fusion"
-version = "1.0"
-description = "Med Tech Fusion Project"
+version = "1.0.0"
+description = ""
 
 [tool.poetry.dependencies]
 python = "^3.9"
 
 [tool.poetry.dev-dependencies]
-pytest = "^6.2"
+pytest = "^7.1"
