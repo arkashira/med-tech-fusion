@@ -1,4 +1,7 @@
-# med-tech-fusion
-Hardware-Firmware Integration Pipeline
+# Firmware Deployer
 
-This project provides a simple pipeline for designing and testing hardware-firmware integration in one place.
+A simple firmware deployer that can deploy firmware to cloud services in one click.
+
+## Usage
+
+To deploy firmware, run the following command:
