@@ -1,30 +1,40 @@
 import json
 from dataclasses import dataclass
-from typing import List
+from typing import Dict, List
 
 @dataclass
-class MedicalSoftware:
+class Hardware:
     name: str
-    version: str
-    hardware_dependencies: List[str]
-    firmware_dependencies: List[str]
-    cloud_dependencies: List[str]
+    firmware_version: str
 
-    def compile(self):
-        # Simulate compilation process
-        return f"{self.name} compiled successfully"
+@dataclass
+class Simulation:
+    hardware: Hardware
+    firmware: str
+    sync_status: bool
 
-    def integrate(self):
-        # Simulate integration process
-        return f"{self.name} integrated with hardware, firmware, and cloud components"
+class MedTechFusion:
+    def __init__(self):
+        self.hardware_devices = []
+        self.simulations = []
 
-def create_medical_software(name: str, version: str, hardware_dependencies: List[str], firmware_dependencies: List[str], cloud_dependencies: List[str]) -> MedicalSoftware:
-    return MedicalSoftware(name, version, hardware_dependencies, firmware_dependencies, cloud_dependencies)
+    def add_hardware(self, hardware: Hardware):
+        self.hardware_devices.append(hardware)
 
-def main():
-    medical_software = create_medical_software("MedTechFusion", "1.0", ["Hardware1", "Hardware2"], ["Firmware1", "Firmware2"], ["Cloud1", "Cloud2"])
-    print(medical_software.compile())
-    print(medical_software.integrate())
+    def simulate(self, hardware_name: str, firmware: str) -> Simulation:
+        hardware = next((h for h in self.hardware_devices if h.name == hardware_name), None)
+        if hardware is None:
+            raise ValueError("Hardware device not found")
+        sync_status = hardware.firmware_version == firmware
+        simulation = Simulation(hardware, firmware, sync_status)
+        self.simulations.append(simulation)
+        return simulation
 
-if __name__ == "__main__":
-    main()
+    def get_simulations(self) -> List[Simulation]:
+        return self.simulations
+
+    def reduce_development_time(self, simulation: Simulation) -> float:
+        if simulation.sync_status:
+            return 0.2  # 20% reduction
+        else:
+            return 0.0

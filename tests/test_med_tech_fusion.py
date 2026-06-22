@@ -1,23 +1,44 @@
 import pytest
-from src.med_tech_fusion import MedicalSoftware, create_medical_software
+from med_tech_fusion import MedTechFusion, Hardware, Simulation
 
-def test_medical_software_compilation():
-    medical_software = create_medical_software("MedTechFusion", "1.0", ["Hardware1", "Hardware2"], ["Firmware1", "Firmware2"], ["Cloud1", "Cloud2"])
-    assert medical_software.compile() == "MedTechFusion compiled successfully"
+def test_add_hardware():
+    med_tech_fusion = MedTechFusion()
+    hardware = Hardware("Device1", "1.0")
+    med_tech_fusion.add_hardware(hardware)
+    assert len(med_tech_fusion.hardware_devices) == 1
 
-def test_medical_software_integration():
-    medical_software = create_medical_software("MedTechFusion", "1.0", ["Hardware1", "Hardware2"], ["Firmware1", "Firmware2"], ["Cloud1", "Cloud2"])
-    assert medical_software.integrate() == "MedTechFusion integrated with hardware, firmware, and cloud components"
+def test_simulate():
+    med_tech_fusion = MedTechFusion()
+    hardware = Hardware("Device1", "1.0")
+    med_tech_fusion.add_hardware(hardware)
+    simulation = med_tech_fusion.simulate("Device1", "1.0")
+    assert simulation.sync_status
 
-def test_medical_software_creation():
-    medical_software = create_medical_software("MedTechFusion", "1.0", ["Hardware1", "Hardware2"], ["Firmware1", "Firmware2"], ["Cloud1", "Cloud2"])
-    assert medical_software.name == "MedTechFusion"
-    assert medical_software.version == "1.0"
-    assert medical_software.hardware_dependencies == ["Hardware1", "Hardware2"]
-    assert medical_software.firmware_dependencies == ["Firmware1", "Firmware2"]
-    assert medical_software.cloud_dependencies == ["Cloud1", "Cloud2"]
+def test_simulate_hardware_not_found():
+    med_tech_fusion = MedTechFusion()
+    with pytest.raises(ValueError):
+        med_tech_fusion.simulate("Device1", "1.0")
 
-def test_medical_software_empty_dependencies():
-    medical_software = create_medical_software("MedTechFusion", "1.0", [], [], [])
-    assert medical_software.compile() == "MedTechFusion compiled successfully"
-    assert medical_software.integrate() == "MedTechFusion integrated with hardware, firmware, and cloud components"
+def test_get_simulations():
+    med_tech_fusion = MedTechFusion()
+    hardware = Hardware("Device1", "1.0")
+    med_tech_fusion.add_hardware(hardware)
+    med_tech_fusion.simulate("Device1", "1.0")
+    simulations = med_tech_fusion.get_simulations()
+    assert len(simulations) == 1
+
+def test_reduce_development_time():
+    med_tech_fusion = MedTechFusion()
+    hardware = Hardware("Device1", "1.0")
+    med_tech_fusion.add_hardware(hardware)
+    simulation = med_tech_fusion.simulate("Device1", "1.0")
+    reduction = med_tech_fusion.reduce_development_time(simulation)
+    assert reduction == 0.2
+
+def test_reduce_development_time_no_sync():
+    med_tech_fusion = MedTechFusion()
+    hardware = Hardware("Device1", "1.0")
+    med_tech_fusion.add_hardware(hardware)
+    simulation = med_tech_fusion.simulate("Device1", "2.0")
+    reduction = med_tech_fusion.reduce_development_time(simulation)
+    assert reduction == 0.0
